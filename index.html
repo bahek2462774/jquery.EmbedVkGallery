@@ -1,0 +1,46 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>EmbedVkGallery</title>
+    <style>
+        body {
+            background-color: #222;
+        }
+.p {
+    margin: 4px;
+    float: left;
+}
+    </style>
+    <link rel="stylesheet" href="./slimbox/slimbox2.css">
+</head>
+
+<body>
+<div style="width: 350px;" data-width="150" class="p"></div>
+<div style="width: 750px;" class="p" data-link="http://vk.com/album-27725748_163496590"></div>
+<div style="width: 800px;" data-width="200" class="p"></div>
+
+
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="js/jquery.slimbox2.js"></script>
+<script src="js/jquery.embedvkgallery.js"></script>
+<script>
+    (function($) {
+        $(function() {
+           $('.p:first').EmbedVkGallery('http://vk.com/album-27725748_154688860');
+           $('.p').eq(1).EmbedVkGallery();
+            $('.p').eq(2).EmbedVkGallery({
+                link: 'http://vk.com/album-27725748_138005450',
+                margin: 5
+            });
+        });
+    })(jQuery);
+</script>
+</body>
+</html>
