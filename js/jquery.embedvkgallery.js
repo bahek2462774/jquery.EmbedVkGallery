@@ -50,7 +50,7 @@
                     var min = parentWidth / width ^ 0,
                         result = [];
                     if (count <= min) {
-                        return result[0] = count;
+                        return [count];
                     } else {
                         while (count > 0) {
                             if ((count - min) > min) {
