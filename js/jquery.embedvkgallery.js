@@ -122,6 +122,7 @@
                                 title: $(this).data('text')
                             }),
                             $img = $('<img/>', { src: $(this).data('src') })
+                                .css({ margin: 0 })
                                 .load(function() {
                             resize( $(this) );
                             });
