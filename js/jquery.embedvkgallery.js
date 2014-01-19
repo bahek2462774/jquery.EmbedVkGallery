@@ -135,19 +135,18 @@
                     if (data.response && data.response.count > 0) {
                         json = data;
                         var arr = getCountRows(data.response.count, meta_opts.width,  $this.width()),
-                            n = (meta_opts.height + meta_opts.width > 220) ? 2 :
-                            (meta_opts.height + meta_opts.width > 70) ? 1 : 0,
+                            sizes = 2,
                             item = 0;
                         for (var i = 0; i < arr.length; i++) {
                             var $row = $('<div/>');
                             for (var j = 0; j < arr[i]; j++) {
-                                var c_height = data.response.items[item].sizes[n].height,
-                                    c_width = data.response.items[item].sizes[n].width,
+                                var c_height = data.response.items[item].sizes[sizes].height,
+                                    c_width = data.response.items[item].sizes[sizes].width,
                                     newWidth = c_width * meta_opts.height / c_height ^ 0;
                                 $('<div/>').data({
                                     newHeight: meta_opts.height,
                                     newWidth: newWidth,
-                                    src: data.response.items[item].sizes[n].src,
+                                    src: data.response.items[item].sizes[sizes].src,
                                     text: data.response.items[item].text,
                                     maxSrc: data.response.items[item].sizes[2].src
                                 }).appendTo($row);
