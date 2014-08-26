@@ -25,6 +25,7 @@
                 json;
             function showAlbum() {
                 var $this = $(this),
+                    gallerySetName = 'gallerySetName' + +new Date(),
                     meta_opts = $.extend({}, localOpts, $this.data()),
                     res = /(-?\d+)_(\d+)/g.exec(meta_opts.link);
                     if (!res || res.length < 3) {return;}
@@ -119,6 +120,7 @@
                         var $a = $('<a/>', {
                                 href: $(this).data('maxSrc'),
                                 rel: 'lightbox',
+                                'data-lightbox': gallerySetName,
                                 title: $(this).data('text')
                             }),
                             $img = $('<img/>', { src: $(this).data('src') })
