@@ -119,7 +119,7 @@
                         });
                         var $a = $('<a/>', {
                                 href: $(this).data('maxSrc'),
-                                rel: 'lightbox',
+                                rel: gallerySetName,
                                 'data-lightbox': gallerySetName,
                                 title: $(this).data('text')
                             }),
