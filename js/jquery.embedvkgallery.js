@@ -157,6 +157,8 @@
                             expanding($row).appendTo($this);
                             if ($.fn.slimbox){
                                 $('a', $this).slimbox({}, meta_opts.link_mapper);
+                            } else if ($.fn.swipebox) {
+                                $('a', $this).swipebox({}, meta_opts.link_mapper);
                             }
                         }
                     } else {
