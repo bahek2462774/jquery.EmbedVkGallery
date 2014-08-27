@@ -120,10 +120,15 @@
                         var $a = $('<a/>', {
                                 href: $(this).data('maxSrc'),
                                 rel: gallerySetName,
+                                'class': 'embedvkgallery_link',
                                 'data-lightbox': gallerySetName,
                                 title: $(this).data('text')
                             }),
-                            $img = $('<img/>', { src: $(this).data('src') })
+                            $img = $('<img/>', { 
+                                src: $(this).data('src'),
+                                'class': 'embedvkgallery_img'
+                                
+                            })
                                 .css({ margin: 0 })
                                 .load(function() {
                             resize( $(this) );
@@ -158,7 +163,7 @@
                             if ($.fn.slimbox){
                                 $('a', $this).slimbox({}, meta_opts.link_mapper);
                             } else if ($.fn.swipebox) {
-                                $('a', $this).swipebox({}, meta_opts.link_mapper);
+                                $('a.embedvkgallery_link', $this).swipebox({}, meta_opts.link_mapper);
                             }
                         }
                     } else {
