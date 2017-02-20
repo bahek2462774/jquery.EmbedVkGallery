@@ -2,6 +2,11 @@
     $(function() {
         var nps = 'EmbedVkGallery';
         $[nps] = {
+            /**
+             * Can be [s,m,x,o,p,q,y,z,w]
+             * Look into https://vk.com/dev/photo_sizes
+             */
+            full_image_size: 'x',
             width: 100,
             margin: 4,
             rev: 1,
@@ -29,10 +34,17 @@
                     meta_opts = $.extend({}, localOpts, $this.data()),
                     res = /(-?\d+)_(\d+)/g.exec(meta_opts.link);
                     if (!res || res.length < 3) {return;}
+                /**
+                 * photo_sizes=1 returns special formats
+                 * https://vk.com/dev/photo_sizes
+                 */
                 var query = 'https://api.vk.com/method/photos.get?&photo_sizes=1&extended=1&album_id=' + res[2]
                     + '&owner_id=' + res[1]
                     + '&rev=' + meta_opts.rev
-                    + '&v=5.2&callback=?';
+                    /**
+                     * Version of VK API
+                     */
+                    + '&v=5.62&callback=?';
                 if (meta_opts.width < 0) {return;}
                 meta_opts.height = meta_opts.width - (meta_opts.width / 2 ^ 0);
 
@@ -149,13 +161,38 @@
                             for (var j = 0; j < arr[i]; j++) {
                                 var c_height = data.response.items[item].sizes[sizes].height,
                                     c_width = data.response.items[item].sizes[sizes].width,
-                                    newWidth = c_width * meta_opts.height / c_height ^ 0;
+                                    newWidth = c_width * meta_opts.height / c_height ^ 0,
+                                    maxSrc,
+                                    grepResults;
+
+                                /**
+                                 * Finding the maxSrc url which we need
+                                 */
+                                grepResults = $.grep(data.response.items[item].sizes, function(size) {
+                                    return size.type == localOpts.full_image_size;
+                                });
+                                if ( ! grepResults || ! grepResults.length ) {
+                                    grepResults = $.grep(data.response.items[item].sizes, function(size) {
+                                        return size.type == 'm';
+                                    });
+                                    if ( ! grepResults || ! grepResults.length ) {
+                                        grepResults = $.grep(data.response.items[item].sizes, function(size) {
+                                            return size.type == 's';
+                                        });
+                                    }
+                                }
+                                if ( ! grepResults || ! grepResults.length ) {
+                                    continue;
+                                }
+                                maxSrc = grepResults[0].src;
+
+
                                 $('<div/>').data({
                                     newHeight: meta_opts.height,
                                     newWidth: newWidth,
                                     src: data.response.items[item].sizes[sizes].src,
                                     text: data.response.items[item].text,
-                                    maxSrc: data.response.items[item].sizes[2].src
+                                    maxSrc: maxSrc
                                 }).appendTo($row);
                                 item++;
                             }
