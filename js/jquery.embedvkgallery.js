@@ -30,10 +30,20 @@
                 json;
             function showAlbum() {
                 var $this = $(this),
+                    $array_for_promises = [],
+                    $loader_block,
                     gallerySetName = 'gallerySetName' + +new Date(),
                     meta_opts = $.extend({}, localOpts, $this.data()),
                     res = /(-?\d+)_(\d+)/g.exec(meta_opts.link);
                     if (!res || res.length < 3) {return;}
+
+                $loader_block = $('<div/>', {
+                    text: 'Загрузка фотографий, пожалуйста подождите ...',
+                    style: 'text-align: center; padding: 20px 20px;',
+                    'class': 'jquery-embedvkgallery-loader-block'
+                });
+
+                $this.append($loader_block);
                 /**
                  * photo_sizes=1 returns special formats
                  * https://vk.com/dev/photo_sizes
@@ -129,6 +139,8 @@
                             overflow: 'hidden'
 
                         });
+                        var $def = $.Deferred();
+                        $array_for_promises.push($def);
                         var $a = $('<a/>', {
                                 href: $(this).data('maxSrc'),
                                 rel: gallerySetName,
@@ -141,10 +153,14 @@
                                 'class': 'embedvkgallery_img'
                                 
                             })
-                                .css({ margin: 0 })
+                                .css({ margin: 0, display: 'none' })
                                 .load(function() {
-                            resize( $(this) );
-                            });
+                                    resize( $(this) );
+                                    $def.resolve();
+                                })
+                                .error(function() {
+                                    $def.resolve();
+                                });
                         $a.append($img).appendTo( $(this) );
                     });
                     return $row;
@@ -203,11 +219,22 @@
                                 $('a.embedvkgallery_link', $this).swipebox({}, meta_opts.link_mapper);
                             }
                         }
+                        $.when.apply(null, $array_for_promises).done(function() {
+                            $loader_block.hide('slow');
+                            $this.find('.embedvkgallery_img').fadeIn('slow');
+                        });
                     } else {
                         $this.text('Album not found');
                     }
                 }
-                if (!json) {$.getJSON(query, renderAlbumList);} else {renderAlbumList(json);}
+                if (!json) {
+                    $.getJSON(query, renderAlbumList)
+                        .fail(function() {
+                            $loader_block.text('Ошибка загрузки фотографий :(');
+                        });
+                } else {
+                    renderAlbumList(json);
+                }
             }
             return this.each(showAlbum);
         };
