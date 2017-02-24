@@ -32,18 +32,23 @@
                 var $this = $(this),
                     $array_for_promises = [],
                     $loader_block,
+                    $loader_blinding_block,
                     gallerySetName = 'gallerySetName' + +new Date(),
                     meta_opts = $.extend({}, localOpts, $this.data()),
                     res = /(-?\d+)_(\d+)/g.exec(meta_opts.link);
                     if (!res || res.length < 3) {return;}
 
+                $loader_blinding_block = $('<span/>', {text: '...'});
                 $loader_block = $('<div/>', {
-                    text: 'Загрузка фотографий, пожалуйста подождите ...',
+                    text: 'Загрузка фотографий, пожалуйста подождите ',
                     style: 'text-align: center; padding: 20px 20px;',
                     'class': 'jquery-embedvkgallery-loader-block'
                 });
-
+                $loader_block.append($loader_blinding_block);
                 $this.append($loader_block);
+                setInterval(function() {
+                    $loader_blinding_block.fadeOut(500).fadeIn(500);
+                }, 1000);
                 /**
                  * photo_sizes=1 returns special formats
                  * https://vk.com/dev/photo_sizes
@@ -230,7 +235,7 @@
                 if (!json) {
                     $.getJSON(query, renderAlbumList)
                         .fail(function() {
-                            $loader_block.text('Ошибка загрузки фотографий :(');
+                            $loader_block.html('Ошибка загрузки фотографий :(');
                         });
                 } else {
                     renderAlbumList(json);
