@@ -10,6 +10,7 @@
             width: 100,
             margin: 4,
             rev: 1,
+            limit: 0,
             link: '',
             link_mapper: function(el){
                 return [
@@ -92,7 +93,7 @@
                         }
                     }
                     for (var i = 0; i < result.length; i++) {
-                        if (i % 2 == 0) {
+                        if (i % 2 === 0) {
                             if (i <= (result.length-2)) {
                                 if (result[i] > 3 && result[i+1] > 3) {
                                     var max = (result[i] / 3 ^ 0) < (result[i+1] / 3 ^ 0) ?
@@ -119,7 +120,7 @@
                     });
                     totalWidth = totalWidth ^ 0;
                     var a = (totalWidth > $this.width()) ? -1 : 1;
-                    while ( totalWidth != $this.width() ) {
+                    while ( totalWidth !== $this.width() ) {
                         diff = ($this.width() - totalWidth ^ 0 ) / $divs.length ^ 0;
                         diff = Math.abs(diff);
                         if (diff > 2) { a *= diff; }
@@ -127,7 +128,7 @@
                             newWidth = $(this).data('newWidth') + a;
                             $(this).data({ newWidth: newWidth });
                             totalWidth += a;
-                            return (totalWidth != $this.width());
+                            return (totalWidth !== $this.width());
                         });
                         newHeight  = $divs.eq(0).data('newHeight') + a;
                         $divs.data('newHeight', newHeight);
@@ -173,6 +174,13 @@
 
                 function renderAlbumList(data) {
                     if (data.response && data.response.count > 0) {
+                        /**
+                         * Slice array by option LIMIT
+                         */
+                        if (meta_opts.limit && +meta_opts.limit && meta_opts.limit < data.response.count) {
+                            data.response.items.length = meta_opts.limit;
+                            data.response.count = data.response.items.length;
+                        }
                         json = data;
                         var arr = getCountRows(data.response.count, meta_opts.width,  $this.width()),
                             sizes = 2,
