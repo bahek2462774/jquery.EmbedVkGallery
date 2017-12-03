@@ -9,6 +9,8 @@
             full_image_size: 'x',
             width: 100,
             margin: 4,
+            static: 0, /* functionality hasn't been implemented yet */
+            height: 0, /* functionality hasn't been implemented yet */
             rev: 1,
             shuffle: 0,
             limit: 0,
@@ -177,6 +179,14 @@
                     return $row;
                 }
 
+                function addSlider($elem) {
+                    if ($.fn.slimbox){
+                        $('a', $elem).slimbox({}, meta_opts.link_mapper);
+                    } else if ($.fn.swipebox) {
+                        $('a.embedvkgallery_link', $elem).swipebox({}, meta_opts.link_mapper);
+                    }
+                }
+
                 function renderAlbumList(data) {
                     if (data.response && data.response.count > 0) {
                         /**
@@ -238,11 +248,7 @@
                                 item++;
                             }
                             expanding($row).appendTo($this);
-                            if ($.fn.slimbox){
-                                $('a', $this).slimbox({}, meta_opts.link_mapper);
-                            } else if ($.fn.swipebox) {
-                                $('a.embedvkgallery_link', $this).swipebox({}, meta_opts.link_mapper);
-                            }
+                            addSlider($this);
                         }
                         $.when.apply(null, $array_for_promises).done(function() {
                             $loader_block.hide('slow');
@@ -252,6 +258,10 @@
                         $this.text('Album not found');
                     }
                 }
+
+                /**
+                 * Get Album data from VK
+                 */
                 if (!json) {
                     $.getJSON(query, renderAlbumList)
                         .fail(function() {
