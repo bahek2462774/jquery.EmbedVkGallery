@@ -10,6 +10,7 @@
             width: 100,
             margin: 4,
             rev: 1,
+            shuffle: 0,
             limit: 0,
             link: '',
             link_mapper: function(el){
@@ -22,6 +23,10 @@
 
         function getRandomInt(min, max) {
             return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function embedVkGalleryCompareRandom(a, b) {
+            return Math.random() - 0.5;
         }
 
         $.fn[nps] = function(opts) {
@@ -174,6 +179,13 @@
 
                 function renderAlbumList(data) {
                     if (data.response && data.response.count > 0) {
+                        /**
+                         * Shuffle array if `shuffle` = 1
+                         */
+                        if (+meta_opts.shuffle) {
+                            data.response.items.sort(embedVkGalleryCompareRandom);
+                        }
+
                         /**
                          * Slice array by option LIMIT
                          */
