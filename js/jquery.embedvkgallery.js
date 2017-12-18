@@ -167,7 +167,7 @@
                                 
                             })
                                 .css({ margin: 0, display: 'none' })
-                                .load(function() {
+                                .one('load', function() {
                                     resize( $(this) );
                                     $def.resolve();
                                 })
