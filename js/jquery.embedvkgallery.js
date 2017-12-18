@@ -171,7 +171,7 @@
                                     resize( $(this) );
                                     $def.resolve();
                                 })
-                                .error(function() {
+                                .on('error', function() {
                                     $def.resolve();
                                 });
                         $a.append($img).appendTo( $(this) );
