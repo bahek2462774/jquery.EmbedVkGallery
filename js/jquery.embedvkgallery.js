@@ -61,7 +61,7 @@
                  * photo_sizes=1 returns special formats
                  * https://vk.com/dev/photo_sizes
                  */
-                var query = 'http://858448.helpm.web.hosting-test.net/vkgallery.php?&photo_sizes=1&extended=1&album_id=' + res[2]
+                var query = 'https://858448.helpm.web.hosting-test.net/vkgallery.php?&photo_sizes=1&extended=1&album_id=' + res[2]
                     + '&owner_id=' + res[1]
                     + '&rev=' + meta_opts.rev
                     /**
