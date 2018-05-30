@@ -61,7 +61,7 @@
                  * photo_sizes=1 returns special formats
                  * https://vk.com/dev/photo_sizes
                  */
-                var query = 'https://http://embedvkgallery.help-master.net/vkgallery.php?&photo_sizes=1&extended=1&album_id=' + res[2]
+                var query = 'https://embedvkgallery.help-master.net/vkgallery.php?&photo_sizes=1&extended=1&album_id=' + res[2]
                     + '&owner_id=' + res[1]
                     + '&rev=' + meta_opts.rev
                     /**
