@@ -1,0 +1,12 @@
+{
+    "name": "bahek2462774/jquery.embed-vk-gallery",
+    "authors": [
+        {
+            "name": "Shtyrliaiev Ivan",
+            "email": "ee923925@gmail.com"
+        }
+    ],
+    "require": {
+        "guzzlehttp/guzzle": "^6.3"
+    }
+}
