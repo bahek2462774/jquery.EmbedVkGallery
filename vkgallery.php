@@ -12,5 +12,5 @@ $res = $client->request('GET', $url);
 if ($res->getStatusCode() === 200) {
     echo $res->getBody();
 } else {
-    echo json_encode(['errors' => ['Guzzle Request Error']]);
+    echo json_encode(['errors' => ['Guzzle Request Error', $res->getBody()]]);
 }
