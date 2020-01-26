@@ -61,7 +61,7 @@
                  * photo_sizes=1 returns special formats
                  * https://vk.com/dev/photo_sizes
                  */
-                var proxyUrl = 'https://7k0cvr7eaj.execute-api.us-east-1.amazonaws.com'
+                var proxyUrl = 'https://7k0cvr7eaj.execute-api.us-east-1.amazonaws.com/dev/embed-vk-gallery'
                 var query = proxyUrl + '?&photo_sizes=1&extended=1&album_id=' + res[2]
                     + '&count=1000'
                     + '&owner_id=' + res[1]
