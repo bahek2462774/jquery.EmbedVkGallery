@@ -69,7 +69,7 @@
                  * https://vk.com/dev/photo_sizes
                  */
                 var query = url + '?&photo_sizes=1&extended=1&album_id=' + res[2]
-                    + 'access_token=' + access_token
+                    + '&access_token=' + access_token
                     + '&count=1000'
                     + '&owner_id=' + res[1]
                     + '&rev=' + meta_opts.rev
