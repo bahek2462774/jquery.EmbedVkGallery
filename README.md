@@ -1,6 +1,4 @@
-ДЕМО САЙТ <a target="_blank" href="http://embedvkgallery.help-master.net/">demo</a>
-=
-
+ДЕМО САЙТ https://bahek2462774.github.io/jquery.EmbedVkGallery/
 
 
 Описание
