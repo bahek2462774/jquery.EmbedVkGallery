@@ -11,7 +11,7 @@
         access_token = token
         // set url directly to vk api server
         url = vkApi
-    }).finally(function() {
+    }).always(function() {
         $(function() {
             var nps = 'EmbedVkGallery';
             $[nps] = {
