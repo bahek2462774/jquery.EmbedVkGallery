@@ -40,7 +40,4 @@ $('#vk2).EmbedVkGallery('http://vk.com/album-27725748_154688860');
             });
 
 
-Просмотр картинок осуществляет плагин slibmox2 http://www.digitalia.be/software/slimbox2 
-
-=
-<a href="http://embedvkgallery.help-master.net/">demo</a>
+Просмотр картинок осуществляет плагин slibmox2 http://www.digitalia.be/software/slimbox2
