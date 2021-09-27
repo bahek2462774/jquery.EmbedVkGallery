@@ -1,11 +1,11 @@
-(function($) {
+(function ($) {
     var vkApi = 'https://api.vk.com/method/photos.get'
     var proxyApi = 'https://7k0cvr7eaj.execute-api.us-east-1.amazonaws.com/dev/embed-vk-gallery'
     // by default we point url to the proxy (in case developer hasn't added access_token)
     var url = proxyApi
     var access_token = ''
 
-    $(function() {
+    $(function () {
         var nps = 'EmbedVkGallery';
         $[nps] = {
             /**
@@ -21,10 +21,10 @@
             shuffle: 0,
             limit: 0,
             link: '',
-            link_mapper: function(el){
+            link_mapper: function (el) {
                 return [
                     el.href,
-                    '<a href="'+el.href+'">'+el.title+'</a>'
+                    '<a href="' + el.href + '">' + el.title + '</a>'
                 ]
             }
         };
@@ -37,10 +37,10 @@
             return Math.random() - 0.5;
         }
 
-        $.fn[nps] = function(opts) {
+        $.fn[nps] = function (opts) {
             var self = this
             opts = opts || {};
-            opts = (typeof(opts) !== 'object' ) ? {link:opts} : opts;
+            opts = (typeof (opts) !== 'object') ? { link: opts } : opts;
             var localOpts = $.extend({}, $[nps], opts),
                 json;
             function showAlbum() {
@@ -51,9 +51,9 @@
                     gallerySetName = 'gallerySetName' + +new Date(),
                     meta_opts = $.extend({}, localOpts, $this.data()),
                     res = /(-?\d+)_(\d+)/g.exec(meta_opts.link);
-                    if (!res || res.length < 3) {return;}
+                if (!res || res.length < 3) { return; }
 
-                $loader_blinding_block = $('<span/>', {text: '...'});
+                $loader_blinding_block = $('<span/>', { text: '...' });
                 $loader_block = $('<div/>', {
                     text: 'Загрузка фотографий, пожалуйста подождите ',
                     style: 'text-align: center; padding: 20px 20px;',
@@ -61,7 +61,7 @@
                 });
                 $loader_block.append($loader_blinding_block);
                 $this.append($loader_block);
-                setInterval(function() {
+                setInterval(function () {
                     $loader_blinding_block.fadeOut(500).fadeIn(500);
                 }, 1000);
                 /**
@@ -76,8 +76,8 @@
                     /**
                      * Version of VK API
                      */
-                    + '&v=5.62&callback=?';
-                if (meta_opts.width < 0) {return;}
+                    + '&v=5.131&callback=?';
+                if (meta_opts.width < 0) { return; }
                 meta_opts.height = meta_opts.width - (meta_opts.width / 2 ^ 0);
 
                 function resize($img) {
@@ -110,9 +110,9 @@
                     }
                     for (var i = 0; i < result.length; i++) {
                         if (i % 2 === 0) {
-                            if (i <= (result.length-2)) {
-                                if (result[i] > 3 && result[i+1] > 3) {
-                                    var max = (result[i] / 3 ^ 0) < (result[i+1] / 3 ^ 0) ?
+                            if (i <= (result.length - 2)) {
+                                if (result[i] > 3 && result[i + 1] > 3) {
+                                    var max = (result[i] / 3 ^ 0) < (result[i + 1] / 3 ^ 0) ?
                                         result[i] / 3 ^ 0 : result[i + 1] / 3 ^ 0,
                                         plusOrMinus = Math.random() < 0.5 ? -1 : 1,
                                         a = getRandomInt(1, max) * plusOrMinus;
@@ -131,26 +131,26 @@
                         diff,
                         newWidth,
                         newHeight;
-                    $divs.each(function() {
+                    $divs.each(function () {
                         totalWidth += $(this).data('newWidth');
                     });
                     totalWidth = totalWidth ^ 0;
                     var a = (totalWidth > $this.width()) ? -1 : 1;
-                    while ( totalWidth !== $this.width() ) {
-                        diff = ($this.width() - totalWidth ^ 0 ) / $divs.length ^ 0;
+                    while (totalWidth !== $this.width()) {
+                        diff = ($this.width() - totalWidth ^ 0) / $divs.length ^ 0;
                         diff = Math.abs(diff);
                         if (diff > 2) { a *= diff; }
-                        $divs.each(function() {
+                        $divs.each(function () {
                             newWidth = $(this).data('newWidth') + a;
                             $(this).data({ newWidth: newWidth });
                             totalWidth += a;
                             return (totalWidth !== $this.width());
                         });
-                        newHeight  = $divs.eq(0).data('newHeight') + a;
+                        newHeight = $divs.eq(0).data('newHeight') + a;
                         $divs.data('newHeight', newHeight);
                         a = (totalWidth > $this.width()) ? -1 : 1;
                     }
-                    $divs.each(function() {
+                    $divs.each(function () {
                         $(this).css({
                             width: $(this).data('newWidth'),
                             height: $(this).data('newHeight'),
@@ -164,32 +164,32 @@
                         var $def = $.Deferred();
                         $array_for_promises.push($def);
                         var $a = $('<a/>', {
-                                href: $(this).data('maxSrc'),
-                                rel: gallerySetName,
-                                'class': 'embedvkgallery_link',
-                                'data-lightbox': gallerySetName,
-                                title: $(this).data('text')
-                            }),
-                            $img = $('<img/>', { 
+                            href: $(this).data('maxSrc'),
+                            rel: gallerySetName,
+                            'class': 'embedvkgallery_link',
+                            'data-lightbox': gallerySetName,
+                            title: $(this).data('text')
+                        }),
+                            $img = $('<img/>', {
                                 src: $(this).data('src'),
                                 'class': 'embedvkgallery_img'
-                                
+
                             })
                                 .css({ margin: 0, display: 'none' })
-                                .one('load', function() {
-                                    resize( $(this) );
+                                .one('load', function () {
+                                    resize($(this));
                                     $def.resolve();
                                 })
-                                .on('error', function() {
+                                .on('error', function () {
                                     $def.resolve();
                                 });
-                        $a.append($img).appendTo( $(this) );
+                        $a.append($img).appendTo($(this));
                     });
                     return $row;
                 }
 
                 function addSlider($elem) {
-                    if ($.fn.slimbox){
+                    if ($.fn.slimbox) {
                         $('a', $elem).slimbox({}, meta_opts.link_mapper);
                     } else if ($.fn.swipebox) {
                         $('a.embedvkgallery_link', $elem).swipebox({}, meta_opts.link_mapper);
@@ -197,6 +197,7 @@
                 }
 
                 function renderAlbumList(data) {
+                    console.log('data=', data)
                     if (data.response && data.response.count > 0) {
                         /**
                          * Shuffle array if `shuffle` = 1
@@ -204,6 +205,8 @@
                         if (+meta_opts.shuffle) {
                             data.response.items.sort(embedVkGalleryCompareRandom);
                         }
+
+                        console.log('data.response.items=', data.response.items)
 
                         /**
                          * Slice array by option LIMIT
@@ -213,7 +216,7 @@
                             data.response.count = data.response.items.length;
                         }
                         json = data;
-                        var arr = getCountRows(data.response.count, meta_opts.width,  $this.width()),
+                        var arr = getCountRows(data.response.count, meta_opts.width, $this.width()),
                             sizes = 2,
                             item = 0;
                         for (var i = 0; i < arr.length; i++) {
@@ -228,29 +231,29 @@
                                 /**
                                  * Finding the maxSrc url which we need
                                  */
-                                grepResults = $.grep(data.response.items[item].sizes, function(size) {
+                                grepResults = $.grep(data.response.items[item].sizes, function (size) {
                                     return size.type == localOpts.full_image_size;
                                 });
-                                if ( ! grepResults || ! grepResults.length ) {
-                                    grepResults = $.grep(data.response.items[item].sizes, function(size) {
+                                if (!grepResults || !grepResults.length) {
+                                    grepResults = $.grep(data.response.items[item].sizes, function (size) {
                                         return size.type == 'm';
                                     });
-                                    if ( ! grepResults || ! grepResults.length ) {
-                                        grepResults = $.grep(data.response.items[item].sizes, function(size) {
+                                    if (!grepResults || !grepResults.length) {
+                                        grepResults = $.grep(data.response.items[item].sizes, function (size) {
                                             return size.type == 's';
                                         });
                                     }
                                 }
-                                if ( ! grepResults || ! grepResults.length ) {
+                                if (!grepResults || !grepResults.length) {
                                     continue;
                                 }
-                                maxSrc = grepResults[0].src;
+                                maxSrc = grepResults[0].url;
 
 
                                 $('<div/>').data({
                                     newHeight: meta_opts.height,
                                     newWidth: newWidth,
-                                    src: data.response.items[item].sizes[sizes].src,
+                                    src: data.response.items[item].sizes[sizes].url,
                                     text: data.response.items[item].text,
                                     maxSrc: maxSrc
                                 }).appendTo($row);
@@ -259,7 +262,7 @@
                             expanding($row).appendTo($this);
                             addSlider($this);
                         }
-                        $.when.apply(null, $array_for_promises).done(function() {
+                        $.when.apply(null, $array_for_promises).done(function () {
                             $loader_block.hide('slow');
                             $this.find('.embedvkgallery_img').fadeIn('slow');
                         });
@@ -280,7 +283,7 @@
                  */
                 if (!json) {
                     $.getJSON(query, renderAlbumList)
-                        .fail(function() {
+                        .fail(function () {
                             $loader_block.html('Ошибка загрузки фотографий :(');
                         });
                 } else {
@@ -289,13 +292,13 @@
             }
 
             // check if developer added access_token in access_token.txt
-            $.get('/access_token.txt').done(function(token) {
+            $.get('/access_token.txt').done(function (token) {
                 // set received token
                 access_token = token
                 // set url directly to vk api server
                 url = vkApi
-            }).always(function() {
-                return self.each(showAlbum);      
+            }).always(function () {
+                return self.each(showAlbum);
             })
         };
     });
